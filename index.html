@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <!-- ===== SEO META TAGS ===== -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <meta name="theme-color" content="#0f0c29" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Primary Meta Tags -->
+    <title>HD Image Finder - Search & Download Free HD Images</title>
+    <meta name="title" content="HD Image Finder - Search & Download Free HD Images" />
+    <meta name="description" content="Search and download millions of free HD images. Find high-quality photos by keyword and download in full resolution." />
+    <meta name="keywords" content="image search, hd images, free photos, download images, stock photos, image finder" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="HD Image Finder" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://image-finder.app/" />
+    <meta property="og:title" content="HD Image Finder - Search & Download Free HD Images" />
+    <meta property="og:description" content="Search and download millions of free HD images. Find high-quality photos by keyword." />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://image-finder.app/" />
+    <meta name="twitter:title" content="HD Image Finder - Search & Download Free HD Images" />
+    <meta name="twitter:description" content="Search and download millions of free HD images." />
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200" />
+    
+    <!-- PWA Manifest Link -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkhEIEltYWdlIEZpbmRlciIsCiAgInNob3J0X25hbWUiOiAiSW1hZ2VGaW5kZXIiLAogICJkZXNjcmlwdGlvbiI6ICJTZWFyY2ggYW5kIGRvd25sb2FkIEhEIGltYWdlcyIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGYwYzI5IiwKICAidGhlbWVfY29sb3IiOiAiI2Y3OTcxZSIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDUxMiA1MTInPjxyZWN0IHdpZHRoPSc1MTInIGhlaWdodD0nNTEyJyByeD0nNTAlJyBmaWxsPScjZjQ5NzFlJy8+PHRleHQgeD0nMjU2JyB5PSczNDAnIGZvbnQtc2l6ZT0nMjUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmaWxsPScjZmZmJz48L3RleHQ+PC9zdmc+IgogICAgfQogIF0KfQ==" />
+    
+    <!-- Preconnect for faster API calls -->
+    <link rel="preconnect" href="https://api.unsplash.com" />
+    <link rel="dns-prefetch" href="https://api.unsplash.com" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <!-- JSON-LD Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "HD Image Finder",
+        "description": "Search and download millions of free HD images",
+        "applicationCategory": "Multimedia",
+        "operatingSystem": "All",
+        "browserRequirements": "JavaScript enabled",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+    
+    <style>
+        /* ===== CRITICAL CSS ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        /* ===== SKELETON LOADER ===== */
+        .skeleton-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; margin-top: 20px; }
+        .skeleton-card { background: rgba(255,255,255,0.05); border-radius: 16px; height: 260px; animation: skeleton-pulse 1.5s ease-in-out infinite; }
+        @keyframes skeleton-pulse { 0% { opacity: 0.3; } 50% { opacity: 0.6; } 100% { opacity: 0.3; } }
+        
+        body { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; display: flex; justify-content: center; padding: 20px; }
+        .container { max-width: 1200px; width: 100%; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border-radius: 30px; padding: 30px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); }
+        h1 { text-align: center; color: #fff; font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; letter-spacing: 1px; }
+        h1 i { color: #f7971e; margin-right: 10px; }
+        .subtitle { text-align: center; color: rgba(255, 255, 255, 0.6); margin-bottom: 30px; font-size: 1rem; }
+        
+        .search-box { position: relative; display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; }
+        .search-box input { flex: 1; padding: 16px 20px; border: none; border-radius: 50px; background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 1rem; outline: 2px solid transparent; transition: 0.3s; min-width: 200px; }
+        .search-box input::placeholder { color: rgba(255, 255, 255, 0.4); }
+        .search-box input:focus { outline-color: #f7971e; background: rgba(255, 255, 255, 0.15); }
+        .search-box button { padding: 16px 35px; border: none; border-radius: 50px; background: linear-gradient(135deg, #f7971e, #ffd200); color: #1a1a2e; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+        .search-box button:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(247, 151, 30, 0.4); }
+
+        .suggestions { position: absolute; top: 65px; left: 0; right: 0; background: rgba(20, 20, 40, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 10px 0; z-index: 100; display: none; max-height: 300px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); }
+        .suggestions.show { display: block; }
+        .suggestions .suggestion-item { padding: 12px 20px; color: rgba(255,255,255,0.8); cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 12px; }
+        .suggestions .suggestion-item:hover { background: rgba(247,151,30,0.15); color: #fff; }
+        .suggestions .suggestion-item i { color: #f7971e; width: 20px; }
+
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; margin-top: 20px; }
+        .result-card { background: rgba(255, 255, 255, 0.07); border-radius: 16px; overflow: hidden; transition: 0.3s; border: 1px solid rgba(255, 255, 255, 0.05); animation: fadeIn 0.4s ease; cursor: pointer; }
+        .result-card:hover { transform: scale(1.03); border-color: #f7971e; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+        .result-card .image-wrapper { position: relative; overflow: hidden; height: 220px; background: rgba(0,0,0,0.2); }
+        .result-card .image-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; transition: 0.3s; }
+        .result-card:hover .image-wrapper img { transform: scale(1.05); }
+        .hd-badge { position: absolute; top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .hd-badge i { color: #f7971e; margin-right: 4px; }
+        .result-card .info { padding: 12px 15px; color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; background: rgba(0, 0, 0, 0.2); }
+        .result-card .info .user { display: flex; align-items: center; gap: 6px; }
+        .result-card .info .user i { color: #f7971e; }
+        .result-card .info .size { font-size: 0.7rem; opacity: 0.5; }
+
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); color: #fff; padding: 15px 30px; border-radius: 50px; font-size: 1rem; opacity: 0; transition: 0.5s; z-index: 999; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 12px; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast i { color: #4CAF50; font-size: 1.3rem; }
+        .no-results { text-align: center; color: rgba(255, 255, 255, 0.5); padding: 50px 20px; font-size: 1.1rem; grid-column: 1 / -1; }
+        .no-results i { font-size: 3rem; display: block; margin-bottom: 15px; opacity: 0.3; }
+
+        /* ===== DOWNLOAD PROGRESS BAR ===== */
+        .download-progress-overlay { display: none; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); border-radius: 16px; padding: 20px 30px; min-width: 300px; max-width: 90%; border: 1px solid rgba(255,255,255,0.1); }
+        .download-progress-overlay.show { display: block; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
+        .download-progress-overlay .progress-label { color: #fff; font-size: 0.9rem; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .download-progress-overlay .progress-label span { color: #f7971e; }
+        .download-progress-overlay .progress-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .download-progress-overlay .progress-bar .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #f7971e, #ffd200); border-radius: 10px; transition: width 0.2s ease; }
+        .download-progress-overlay .progress-status { color: rgba(255,255,255,0.5); font-size: 0.75rem; margin-top: 6px; text-align: center; }
+
+        /* ===== FULLSCREEN OVERLAY ===== */
+        .fullscreen-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a1a; z-index: 1000; overflow-y: auto !important; overflow-x: hidden; padding: 0; }
+        .fullscreen-overlay.show { display: block; }
+        .fullscreen-overlay .close-btn { position: fixed; top: 15px; left: 15px; color: #fff; font-size: 2rem; cursor: pointer; z-index: 1001; background: rgba(0,0,0,0.6); width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s; }
+        .fullscreen-overlay .close-btn:hover { background: rgba(255,255,255,0.15); transform: scale(1.1); }
+        .fs-content { max-width: 1200px; margin: 0 auto; padding: 60px 20px 40px; }
+        .fs-image-wrapper { width: 100%; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.2); border-radius: 16px; padding: 30px 20px; min-height: 400px; transition: all 0.3s ease; }
+        .fs-image-wrapper img { max-width: 100%; max-height: 70vh; object-fit: contain; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        .fs-info { color: #fff; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; margin-top: 15px; background: rgba(255,255,255,0.05); border-radius: 12px; flex-wrap: wrap; gap: 10px; }
+        .fs-info .fs-user { font-size: 0.95rem; opacity: 0.8; display: flex; align-items: center; gap: 8px; }
+        .fs-info .fs-user i { color: #f7971e; }
+        .fs-download-btn { padding: 10px 25px; border: none; border-radius: 50px; background: linear-gradient(135deg, #f7971e, #ffd200); color: #1a1a2e; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .fs-download-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(247, 151, 30, 0.4); }
+        .fs-download-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .scroll-indicator { text-align: center; padding: 20px; color: rgba(255,255,255,0.4); font-size: 0.9rem; display: block; margin: 10px 0; }
+        .scroll-indicator i { color: #f7971e; margin-right: 8px; animation: bounce 1.5s infinite; display: inline-block; }
+        .related-section { margin-top: 30px; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.08); display: block; }
+        .related-section h3 { color: rgba(255,255,255,0.6); font-size: 0.9rem; font-weight: 400; margin-bottom: 15px; letter-spacing: 0.5px; }
+        .related-section h3 i { color: #f7971e; margin-right: 8px; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; padding-bottom: 20px; }
+        .related-grid .result-card { background: rgba(255, 255, 255, 0.05); border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.3s; }
+        .related-grid .result-card:hover { transform: scale(1.03); border-color: #f7971e; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+        .related-grid .result-card .image-wrapper { height: 140px; }
+        .related-grid .result-card .info { padding: 8px 12px; font-size: 0.75rem; background: transparent; }
+        .related-grid .result-card .info .user { opacity: 0.6; }
+        .related-loading { text-align: center; padding: 30px; color: rgba(255,255,255,0.4); font-size: 0.9rem; }
+        .related-loading i { color: #f7971e; margin-right: 10px; animation: spin 1s linear infinite; display: inline-block; }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+        @media (max-width: 600px) { 
+            .container { padding: 15px; } 
+            h1 { font-size: 1.8rem; } 
+            .search-box button { padding: 14px 25px; } 
+            .result-card .image-wrapper { height: 180px; } 
+            .results-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+            .fs-image-wrapper { min-height: 250px; padding: 15px; }
+            .fs-image-wrapper img { max-height: 50vh; }
+            .related-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+            .related-grid .result-card .image-wrapper { height: 110px; }
+            .fullscreen-overlay .close-btn { top: 10px; left: 10px; width: 40px; height: 40px; font-size: 1.5rem; }
+            .fs-content { padding: 50px 12px 30px; }
+            .fs-info { flex-direction: column; text-align: center; }
+            .download-progress-overlay { min-width: auto; width: 90%; padding: 15px 20px; bottom: 70px; }
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+        ::-webkit-scrollbar-thumb { background: #f7971e; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1><i class="fas fa-image"></i> HD Image Finder</h1>
+    <p class="subtitle">🔍 Search · 💡 Suggestions · ⬇️ HD Download</p>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search HD images... (nature, car, mountain)" autocomplete="off" />
+        <button onclick="searchImages()"><i class="fas fa-search"></i> Search</button>
+        <div class="suggestions" id="suggestions"></div>
+    </div>
+
+    <!-- Skeleton Loader -->
+    <div class="skeleton-grid" id="skeletonGrid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+    </div>
+
+    <div class="results-grid" id="resultsGrid" style="display:none;"></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage">Download started!</span>
+</div>
+
+<!-- Download Progress Bar -->
+<div class="download-progress-overlay" id="downloadProgress">
+    <div class="progress-label">
+        <span id="progressFilename">Downloading...</span>
+        <span id="progressPercent">0%</span>
+    </div>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-status" id="progressStatus">Preparing...</div>
+</div>
+
+<!-- Fullscreen Overlay -->
+<div class="fullscreen-overlay" id="fullscreenOverlay">
+    <span class="close-btn" onclick="closeFullscreen()"><i class="fas fa-arrow-left"></i></span>
+    
+    <div class="fs-content">
+        <div class="fs-image-wrapper" id="fsImageWrapper">
+            <img id="fsImage" src="" alt="Fullscreen" />
+        </div>
+        
+        <div class="fs-info">
+            <span class="fs-user" id="fsUser"><i class="fas fa-camera"></i> Photographer</span>
+            <button class="fs-download-btn" id="fsDownloadBtn"><i class="fas fa-download"></i> Download HD</button>
+        </div>
+        
+        <div class="scroll-indicator" id="scrollIndicator">
+            <i class="fas fa-arrow-down"></i> Scroll down for related images
+        </div>
+        
+        <div class="related-section" id="relatedSection">
+            <h3><i class="fas fa-images"></i> Related images</h3>
+            <div class="related-grid" id="relatedGrid"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ==============================================
+    // API KEY
+    // ==============================================
+    const UNSPLASH_ACCESS_KEY = 'quAxMVxy1ujEhTBZyoMjJeEjBfrRgJckdDDWc8UCJMI';
+
+    // ==============================================
+    // SUGGESTIONS
+    // ==============================================
+    const SUGGESTIONS = [
+        'Nature', 'Mountain', 'Forest', 'Sunset', 'Ocean', 'Beach', 'Waterfall',
+        'City', 'Night', 'Street', 'Architecture', 'Building', 'Bridge',
+        'Car', 'Motorcycle', 'Bicycle', 'Train', 'Airplane',
+        'Animal', 'Cat', 'Dog', 'Bird', 'Horse', 'Lion', 'Tiger', 'Elephant',
+        'Flower', 'Rose', 'Tulip', 'Lotus', 'Sunflower',
+        'Food', 'Pizza', 'Burger', 'Pasta', 'Sushi', 'Cake', 'Coffee',
+        'Technology', 'Computer', 'Phone', 'Robot', 'Space', 'Galaxy',
+        'Portrait', 'People', 'Girl', 'Boy', 'Family', 'Couple',
+        'Sports', 'Football', 'Cricket', 'Basketball', 'Tennis', 'Swimming',
+        'Art', 'Painting', 'Sketch', 'Abstract', 'Pattern',
+        'Background', 'Wallpaper', 'Texture', 'Minimal',
+        'India', 'Taj Mahal', 'Gateway of India', 'Jaipur', 'Kerala', 'Himalayas'
+    ];
+
+    // ==============================================
+    // DOM REFS
+    // ==============================================
+    const resultsGrid = document.getElementById('resultsGrid');
+    const skeletonGrid = document.getElementById('skeletonGrid');
+    const searchInput = document.getElementById('searchInput');
+    const suggestionsDiv = document.getElementById('suggestions');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+    const fsImage = document.getElementById('fsImage');
+    const fsImageWrapper = document.getElementById('fsImageWrapper');
+    const fsUser = document.getElementById('fsUser');
+    const fsDownloadBtn = document.getElementById('fsDownloadBtn');
+    const relatedGrid = document.getElementById('relatedGrid');
+    const relatedSection = document.getElementById('relatedSection');
+    const scrollIndicator = document.getElementById('scrollIndicator');
+    const downloadProgress = document.getElementById('downloadProgress');
+    const progressFill = document.getElementById('progressFill');
+    const progressPercent = document.getElementById('progressPercent');
+    const progressFilename = document.getElementById('progressFilename');
+    const progressStatus = document.getElementById('progressStatus');
+    
+    let toastTimeout = null;
+    let currentImageData = null;
+    let currentKeyword = 'nature';
+    let isRelatedLoading = false;
+    let relatedLoaded = false;
+    let isDownloading = false;
+
+    // ==============================================
+    // SUGGESTIONS
+    // ==============================================
+    searchInput.addEventListener('input', function() {
+        const value = this.value.toLowerCase().trim();
+        if (value.length === 0) {
+            suggestionsDiv.classList.remove('show');
+            return;
+        }
+        const filtered = SUGGESTIONS.filter(s => s.toLowerCase().includes(value)).slice(0, 10);
+        if (filtered.length === 0) {
+            suggestionsDiv.classList.remove('show');
+            return;
+        }
+        suggestionsDiv.innerHTML = filtered.map(s => 
+            `<div class="suggestion-item" onclick="selectSuggestion('${s}')">
+                <i class="fas fa-search"></i> ${s}
+            </div>`
+        ).join('');
+        suggestionsDiv.classList.add('show');
+    });
+
+    function selectSuggestion(text) {
+        searchInput.value = text;
+        suggestionsDiv.classList.remove('show');
+        searchImages(text);
+    }
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-box')) {
+            suggestionsDiv.classList.remove('show');
+        }
+    });
+
+    // ==============================================
+    // TOAST
+    // ==============================================
+    function showToast(message, isError = false) {
+        toastMessage.textContent = message;
+        toast.querySelector('i').className = isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+        toast.querySelector('i').style.color = isError ? '#ff6b6b' : '#4CAF50';
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // ==============================================
+    // DOWNLOAD WITH PROGRESS BAR - FAST & OPTIMIZED
+    // ==============================================
+    async function downloadImageWithProgress(url, filename = 'image.jpg') {
+        if (isDownloading) return;
+        isDownloading = true;
+        fsDownloadBtn.disabled = true;
+        fsDownloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
+        
+        // Show progress bar
+        downloadProgress.classList.add('show');
+        progressFill.style.width = '0%';
+        progressPercent.textContent = '0%';
+        progressFilename.textContent = filename;
+        progressStatus.textContent = 'Starting download...';
+
+        try {
+            // Use fetch with stream for progress tracking
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Download failed');
+            
+            const contentLength = response.headers.get('content-length');
+            const total = contentLength ? parseInt(contentLength, 10) : 0;
+            const reader = response.body.getReader();
+            
+            let received = 0;
+            const chunks = [];
+            
+            progressStatus.textContent = 'Downloading...';
+            
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                
+                chunks.push(value);
+                received += value.length;
+                
+                if (total > 0) {
+                    const percent = Math.round((received / total) * 100);
+                    progressFill.style.width = percent + '%';
+                    progressPercent.textContent = percent + '%';
+                    progressStatus.textContent = `Downloading ${Math.round(received / 1024)} KB / ${Math.round(total / 1024)} KB`;
+                } else {
+                    progressStatus.textContent = `Downloading ${Math.round(received / 1024)} KB...`;
+                }
+            }
+            
+            // Combine chunks
+            const blob = new Blob(chunks);
+            const blobUrl = URL.createObjectURL(blob);
+            
+            progressStatus.textContent = 'Saving file...';
+            progressFill.style.width = '100%';
+            progressPercent.textContent = '100%';
+            
+            // Trigger download
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+            
+            // Hide progress after delay
+            setTimeout(() => {
+                downloadProgress.classList.remove('show');
+                showToast('✅ HD image downloaded successfully!');
+            }, 1500);
+            
+        } catch (error) {
+            console.error('Download error:', error);
+            downloadProgress.classList.remove('show');
+            showToast('❌ Download failed. Try right-click > Save Image As', true);
+        }
+        
+        isDownloading = false;
+        fsDownloadBtn.disabled = false;
+        fsDownloadBtn.innerHTML = '<i class="fas fa-download"></i> Download HD';
+    }
+
+    // ==============================================
+    // SEARCH - WITH SKELETON LOADER
+    // ==============================================
+    async function searchImages(query = null) {
+        const keyword = query || searchInput.value.trim();
+        if (!keyword) {
+            showToast('⚠️ Please enter a keyword!', true);
+            return;
+        }
+
+        currentKeyword = keyword;
+        closeFullscreen();
+        
+        // Show skeleton, hide results
+        skeletonGrid.style.display = 'grid';
+        resultsGrid.style.display = 'none';
+        resultsGrid.innerHTML = '';
+
+        try {
+            const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(keyword)}&per_page=24&client_id=${UNSPLASH_ACCESS_KEY}`;
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                if (response.status === 401) {
+                    showToast('❌ Invalid API Key!', true);
+                    skeletonGrid.style.display = 'none';
+                    return;
+                }
+                throw new Error('API error: ' + response.status);
+            }
+            
+            const data = await response.json();
+
+            // Hide skeleton, show results
+            skeletonGrid.style.display = 'none';
+            resultsGrid.style.display = 'grid';
+
+            if (data.results && data.results.length > 0) {
+                displayImages(data.results, resultsGrid);
+                showToast(`✅ ${data.results.length} HD images found for "${keyword}"`);
+            } else {
+                resultsGrid.innerHTML = `<div class="no-results"><i class="fas fa-search"></i>No images found for "<strong>${keyword}</strong>"</div>`;
+                showToast('😕 No images found', true);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            skeletonGrid.style.display = 'none';
+            resultsGrid.style.display = 'grid';
+            resultsGrid.innerHTML = `<div class="no-results"><i class="fas fa-exclamation-triangle"></i>Error loading images. Check your connection.</div>`;
+            showToast('❌ Network error', true);
+        }
+    }
+
+    // ==============================================
+    // DISPLAY IMAGES
+    // ==============================================
+    function displayImages(images, container, isRelated = false) {
+        container.innerHTML = '';
+        images.forEach((img) => {
+            const card = document.createElement('div');
+            card.className = 'result-card';
+            
+            const previewUrl = img.urls?.regular || img.urls?.small;
+            const alt = img.alt_description || img.description || 'Image';
+            const user = img.user?.name || 'Photographer';
+            const width = img.width || '?';
+            const height = img.height || '?';
+            const sizeText = width !== '?' ? `${width}×${height}` : 'HD';
+
+            // Lazy load images - fast loading
+            card.innerHTML = `
+                <div class="image-wrapper">
+                    <img src="${previewUrl}" alt="${alt}" loading="lazy" decoding="async" />
+                    <span class="hd-badge"><i class="fas fa-star"></i> HD</span>
+                </div>
+                <div class="info">
+                    <span class="user"><i class="fas fa-camera"></i> ${user}</span>
+                    <span class="size">${sizeText}</span>
+                </div>
+            `;
+
+            card.addEventListener('click', function(e) {
+                e.stopPropagation();
+                openFullscreen(img);
+            });
+
+            container.appendChild(card);
+        });
+    }
+
+    // ==============================================
+    // FULLSCREEN
+    // ==============================================
+    function openFullscreen(imageData) {
+        currentImageData = imageData;
+        const hdUrl = getHDUrl(imageData);
+        const previewUrl = imageData.urls?.regular || imageData.urls?.small || imageData.urls?.full;
+        const alt = imageData.alt_description || imageData.description || 'Image';
+        const user = imageData.user?.name || 'Photographer';
+
+        fsImage.src = previewUrl;
+        fsImage.alt = alt;
+        fsUser.innerHTML = `<i class="fas fa-camera"></i> ${user}`;
+        
+        fsDownloadBtn.onclick = function(e) {
+            e.stopPropagation();
+            const filename = `${alt.replace(/[^a-zA-Z0-9]/g, '_')}.jpg`;
+            downloadImageWithProgress(hdUrl, filename);
+        };
+
+        fullscreenOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        // Reset
+        relatedGrid.innerHTML = '';
+        relatedLoaded = false;
+        isRelatedLoading = false;
+        scrollIndicator.style.display = 'block';
+        
+        fullscreenOverlay.scrollTop = 0;
+        fsImageWrapper.style.transform = '';
+        fsImageWrapper.style.opacity = '';
+    }
+
+    function closeFullscreen() {
+        fullscreenOverlay.classList.remove('show');
+        document.body.style.overflow = 'auto';
+        relatedGrid.innerHTML = '';
+        relatedLoaded = false;
+        isRelatedLoading = false;
+        // Hide download progress if visible
+        downloadProgress.classList.remove('show');
+        isDownloading = false;
+        if (fsDownloadBtn) {
+            fsDownloadBtn.disabled = false;
+            fsDownloadBtn.innerHTML = '<i class="fas fa-download"></i> Download HD';
+        }
+    }
+
+    function getHDUrl(imageData) {
+        return imageData.urls?.raw || imageData.urls?.full || imageData.urls?.regular || imageData.urls?.small;
+    }
+
+    // ==============================================
+    // SCROLL HANDLER
+    // ==============================================
+    function handleScroll() {
+        const overlay = fullscreenOverlay;
+        const scrollTop = overlay.scrollTop;
+        
+        const maxScroll = 200;
+        const scrollAmount = Math.min(scrollTop, maxScroll);
+        const scaleAmount = Math.max(0.95, 1 - (scrollAmount / maxScroll) * 0.05);
+        
+        if (scrollTop < maxScroll) {
+            fsImageWrapper.style.transform = `translateY(${-scrollAmount * 0.3}px) scale(${scaleAmount})`;
+            fsImageWrapper.style.opacity = 1 - (scrollAmount / maxScroll) * 0.05;
+        }
+        
+        const scrollHeight = overlay.scrollHeight;
+        const clientHeight = overlay.clientHeight;
+        const maxScrollTop = scrollHeight - clientHeight;
+        
+        if (maxScrollTop > 0) {
+            const scrollPercent = (scrollTop / maxScrollTop) * 100;
+            if (scrollPercent > 15 && !relatedLoaded && !isRelatedLoading && currentImageData) {
+                loadRelatedImages();
+            }
+        }
+    }
+
+    // ==============================================
+    // LOAD RELATED IMAGES
+    // ==============================================
+    async function loadRelatedImages() {
+        if (isRelatedLoading || relatedLoaded) return;
+        if (!currentImageData) return;
+        
+        isRelatedLoading = true;
+        scrollIndicator.style.display = 'none';
+        
+        relatedGrid.innerHTML = `<div class="related-loading"><i class="fas fa-spinner"></i> Loading related images...</div>`;
+
+        let searchTerm = currentKeyword;
+        if (currentImageData.alt_description) {
+            const words = currentImageData.alt_description.split(' ');
+            if (words.length > 0 && words[0].length > 2) {
+                searchTerm = words[0];
+            }
+        }
+
+        try {
+            const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(searchTerm)}&per_page=12&client_id=${UNSPLASH_ACCESS_KEY}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('API error');
+            const data = await response.json();
+
+            if (data.results && data.results.length > 0) {
+                const filtered = data.results.filter(img => img.id !== currentImageData.id);
+                if (filtered.length > 0) {
+                    relatedGrid.innerHTML = '';
+                    displayImages(filtered, relatedGrid, true);
+                    relatedLoaded = true;
+                } else {
+                    relatedGrid.innerHTML = `<div class="no-results" style="padding:20px; font-size:0.9rem;">No related images found</div>`;
+                }
+            } else {
+                relatedGrid.innerHTML = `<div class="no-results" style="padding:20px; font-size:0.9rem;">No related images found</div>`;
+            }
+        } catch (error) {
+            console.error('Related images error:', error);
+            relatedGrid.innerHTML = `<div class="no-results" style="padding:20px; font-size:0.9rem;">Could not load related images</div>`;
+        }
+
+        isRelatedLoading = false;
+    }
+
+    // ==============================================
+    // EVENT LISTENERS
+    // ==============================================
+    fullscreenOverlay.addEventListener('scroll', handleScroll);
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeFullscreen();
+        }
+    });
+
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            suggestionsDiv.classList.remove('show');
+            searchImages();
+        }
+    });
+
+    // ==============================================
+    // STARTUP
+    // ==============================================
+    window.onload = function() {
+        // Preload first search
+        setTimeout(() => searchImages('nature'), 100);
+    };
+</script>
+</body>
+</html>
